@@ -1,0 +1,28 @@
+{
+  "name": "snowio",
+  "version": "1.0.0",
+  "description": "Deck the halls with snowballs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js & sleep 10 ; kill $!"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quantalabs/Snowio.git"
+  },
+  "keywords": [
+    "discord-snowsgiving"
+  ],
+  "author": "QLabs (@Quantalabs)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Quantalabs/Snowio/issues"
+  },
+  "homepage": "https://github.com/Quantalabs/Snowio#readme",
+  "dependencies": {
+    "@discordjs/builders": "^0.9.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.25.2",
+    "discord.js": "^13.3.1"
+  }
+}
