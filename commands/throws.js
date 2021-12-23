@@ -5,7 +5,7 @@ const fs = require('fs');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('throws')
-		.setDescription('Throws a snowball')
+		.setDescription('Throw a snowball at a target')
 		.addUserOption(option =>
 			option.setName('target')
 				.setDescription('The target to throw the snowball at')
@@ -16,27 +16,51 @@ module.exports = {
 		if (usersnowballs['snowballs'] > 0) {
 			usersnowballs['snowballs'] -= 1;
 			fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
-			// Flip a coin
-			var coin = Math.floor(Math.random() * 2);
-			if (coin == 0) {
-				interaction.reply(`${interaction.user.username} threw a snowball at ${interaction.options.getUser('target')} and succeeded!`);
+			// Flip a 100 sided probability coin
+			var coin = Math.random()*100;
+			if (coin <= JSON.parse(fs.readFileSync(`./userinfo/${interaction.options.getUser('target').id}.json`, 'utf8'))['probability']*100) {
+				// Edit target user's file
+				var targetinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.options.getUser('target').id}.json`, 'utf8'));
 				
-				// Edit the user file for the target
-				var target = interaction.options.getUser('target');
-				var targetinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
+				// Decrease target's snowball count by 10, but if value is less than 0, set it to 0
+				targetinfo['snowballs'] -= 10;
+				if (targetinfo['snowballs'] < 0) {
+					targetinfo['snowballs'] = 0;
+				}
 
-				targetinfo['hits'] = String(Number(targetinfo['hits']) + 1);
+				// Increase target's hit probability by 2%, or set it to 90% if it goes over 90%.
+				targetinfo['probability'] += 0.02;
+				targetinfo['probability'] = Math.round(targetinfo['probability'] * 100) / 100;
+				if (targetinfo['probability'] > 0.9) {
+					targetinfo['probability'] = 0.9;
+				}
 
-				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(targetinfo));
+				fs.writeFileSync(`./userinfo/${interaction.options.getUser('target').id}.json`, JSON.stringify(targetinfo));
+
+				interaction.reply(`${interaction.user.username} has thrown a snowball at ${interaction.options.getUser('target').username} and has successfully hit them!`);
+				
+				// Add 1 to sender's hit count
+				var senderinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
+				senderinfo['hits'] += 1;
+				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(senderinfo));
 			} else {
-				interaction.reply(`${interaction.user.username} threw a snowball at ${interaction.options.getUser('target')}, but failed!`);
+				interaction.reply(`${interaction.user.username} threw a snowball at ${interaction.options.getUser('target')}, but failed, and so gave them 1 free snowball!`);
 
-				// Edit the user file for the target
-				var targetinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
+				// Add 1 to sender's miss count
+				var senderinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
+				senderinfo['Misses'] += 1;
+				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(senderinfo));
 
-				targetinfo['Misses'] = String(Number(targetinfo['hits']) + 1);
+				// Add 1 to target's snowball count
+				var targetinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.options.getUser('target').id}.json`, 'utf8'));
+				targetinfo['snowballs'] += 1;
 
-				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(targetinfo));
+				// Increase target's hit probability by 1%
+				targetinfo['probability'] += 0.01;
+				// Round probability to 2 decimal places
+				targetinfo['probability'] = Math.round(targetinfo['probability'] * 100) / 100;
+
+				fs.writeFileSync(`./userinfo/${interaction.options.getUser('target').id}.json`, JSON.stringify(targetinfo));
 			}
 		}
 		else {

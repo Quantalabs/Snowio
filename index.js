@@ -51,36 +51,28 @@ client.on('interactionCreate', interaction => {
 				interaction.reply(`${interaction.user.username} bought a snowball machine!`);
 			}
 			else {
-				interaction.reply(`${interaction.user.username} does not have enough snowballs`);
+				interaction.reply(`${interaction.user.username} does not have enough snowballs (need 100 total snowballs)`);
 			}
 		}
-		else if (selectedItem === 'snowballgun') {
-			var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
+		else if (selectedItem === 'fortress') {
+			var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
 
-			if (usersnowballs['snowballs'] > 0) {
-				usersnowballs['snowballs'] -= 1;
-				usersnowballs['items'].push('snowballgun');
-				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
-				interaction.reply(`${interaction.user.username} bought a snowball gun!`);
+			if (userinfo['snowballs'] >= 50) {
+				userinfo['snowballs'] -= 50;
+				userinfo['items'].push('fortress');
+				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
+				interaction.reply(`${interaction.user.username} bought a fortress!`);
 			}
 			else {
-				interaction.reply(`${interaction.user.username} doesn't have any snowballs!`);
-			}
-		}
-		else if (selectedItem === 'thrower') {
-			var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
-
-			if (usersnowballs['snowballs'] > 0) {
-				usersnowballs['snowballs'] -= 1;
-				usersnowballs['items'].push('thrower');
-				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
-				interaction.reply(`${interaction.user.username} bought a freezethrower!`);
-			}
-			else {
-				interaction.reply(`${interaction.user.username} doesn't have any snowballs!`);
+				interaction.reply(`${interaction.user.username} does not have enough snowballs (need 50 total snowballs)`);
 			}
 		}
 	}
 });
 
 client.login(token);
+
+process.on('SIGINT', function() {
+  console.log('Interrupted');
+  process.exit(0);
+});

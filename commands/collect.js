@@ -6,7 +6,7 @@ const talkedRecently = new Set();
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('collect')
-		.setDescription('Collect snowballs'),
+		.setDescription('Add to your snowball stockpile'),
 	async execute(interaction) {
 		if (talkedRecently.has(interaction.user.id)) {
             interaction.reply("Wait 30 seconds before getting typing this again.");

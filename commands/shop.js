@@ -7,7 +7,7 @@ const talkedRecently = new Set();
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('shop')
-		.setDescription('Shop for items at the store'),
+		.setDescription('Buy items from the shop'),
 	async execute(interaction) {
         const row = new MessageActionRow()
             .addComponents(
@@ -18,19 +18,14 @@ module.exports = {
                     .addOptions([
                         {
                             label: 'Snowball Machine',
-                            description: 'Generates snowballs at a rate of 1 per 20 seconds, up to a maximum of 100 snowballs',
+                            description: 'Generates snowballs at a rate of 10 per 60 seconds, up to a maximum of 100 snowballs',
                             value: 'machine',
                         },
                         {
-                            label: 'Snowball Gun',
-                            description: 'Throw multiple snowballs at a time',
-                            value: 'snowballgun',
-                        },
-                        {
-                            label: 'Freezethrower',
-                            description: 'Throw freeze balls at your enemy',
-                            value: 'thrower',
-                        },
+                            label: 'Fortress',
+                            description: 'Reduces the chance of getting a snowball by 10%',
+                            value: 'fortress',
+                        }
                     ]),
             );
 
