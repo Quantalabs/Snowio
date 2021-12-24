@@ -44,14 +44,14 @@ client.on('interactionCreate', interaction => {
 		if (selectedItem === 'machine') {
 			var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
 
-			if (usersnowballs['snowballs'] >= 20) {
-				usersnowballs['snowballs'] -= 20;
+			if (usersnowballs['snowballs'] >= 75) {
+				usersnowballs['snowballs'] -= 75;
 				usersnowballs['items'].push('machine');
 				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
 				interaction.reply(`${interaction.user.username} bought a snowball machine!`);
 			}
 			else {
-				interaction.reply(`${interaction.user.username} does not have enough snowballs (need 100 total snowballs)`);
+				interaction.reply(`${interaction.user.username} does not have enough snowballs (need 75 total snowballs)`);
 			}
 		}
 		else if (selectedItem === 'fortress') {
