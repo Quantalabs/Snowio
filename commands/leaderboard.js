@@ -39,6 +39,11 @@ module.exports = {
             return Number(b.stats) - Number(a.stats);
         });
 
+        // If category is probability, reverse the array
+        if (category == 'probability') {
+            usersinfo.reverse();
+        }
+        
         // Build embed
         var embed = {
             "title": `Top players in ${category}`,
