@@ -28,7 +28,7 @@ module.exports = {
             "color": 0x3262a8,
             "fields": [
                 {
-                    "name": "Snowballs Thrown",
+                    "name": "# of Snowballs in Stockpile",
                     "value": String(userinfo['snowballs']),
                     "inline": true
                 },
