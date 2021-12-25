@@ -19,6 +19,6 @@ module.exports = {
             probability: 0.5
         }));
 
-        interaction.reply(`${interaction.user.username} has created a profile! You now have 50 snowballs and a 50% hit probability! Every time someone hits you, you can lose up to 10 snowballs. You can also buy items from the shop (/shop) that will generate snowballs for you, lower the chance of getting hit, or other cool stuff, and use them with /use! All stats are recorded, and you can view them view the /stats command. You can also use /start to completely reset your profile, if you want to start over. Good luck!`);
+        interaction.reply({content: `${interaction.user.username} has created a profile! You now have 50 snowballs and a 50% hit probability! Every time someone hits you, you can lose up to 10 snowballs. You can also buy items from the shop (/shop) that will generate snowballs for you, lower the chance of getting hit, or other cool stuff, and use them with /use! All stats are recorded, and you can view them view the /stats command. You can also use /start to completely reset your profile, if you want to start over. Good luck!`, ephemeral: true});
     },
 };

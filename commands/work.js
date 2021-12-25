@@ -9,13 +9,13 @@ module.exports = {
 		.setDescription('Work for your employer'),
 	async execute(interaction) {
         if (talkedRecently.has(interaction.user.id)) {
-            interaction.reply("Wait 30 seconds before getting typing this again.");
+            interaction.reply({content: "Wait 30 seconds before getting typing this again.", ephemeral: true});
             return;
 		}
 		// Check if user is in a company
         var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
         if (userinfo.company == null) {
-            interaction.reply('You are not in a company. Use /apply to apply to a company');
+            interaction.reply({content: 'You are not in a company. Use /apply to apply to a company', ephemeral: true});
             return;
         }
 

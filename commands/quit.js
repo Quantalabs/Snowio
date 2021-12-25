@@ -11,7 +11,7 @@ module.exports = {
         if (userinfo.company != null) {
             var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${userinfo.company}.json`, 'utf8'));
             if (companyinfo.owner == interaction.user.id) {
-                interaction.reply('You are the owner of '+userinfo.company+', you can\'t quit. You must shut down the company.');
+                interaction.reply({content: 'You are the owner of '+userinfo.company+', you can\'t quit. You must shut down the company.', ephemeral: true});
                 return;
             }
         }

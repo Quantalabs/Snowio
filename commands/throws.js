@@ -64,7 +64,7 @@ module.exports = {
 			}
 		}
 		else {
-			interaction.reply(`${interaction.user.username} doesn't have any snowballs!`);
+			interaction.reply({content: `${interaction.user.username} doesn't have any snowballs!`, ephemeral: true});
 		}
 	},
 };

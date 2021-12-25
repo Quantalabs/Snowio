@@ -30,10 +30,10 @@ module.exports = {
                 var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'))
                 usersnowballs['snowballs'] += 10;
                 fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
-                interaction.followUp(`${interaction.user.username} gained another 10 snowballs from their machine!`);
+                interaction.followUp({content: `You gained another 10 snowballs from their machine!`, ephemeral: true});
                 x+=1;
                 if (x >= 10) {
-                    interaction.followUp('The snowball machine has stopped!');
+                    interaction.followUp({content: 'The snowball machine has stopped!', ephemeral: true});
                     clearInterval(y);
                 }
             }, 60000);
@@ -56,7 +56,7 @@ module.exports = {
             interaction.reply(`${interaction.user.name} has used their fortress! They now have a ${String(Number(userinfo['probability'])*100)}% chance of getting hit!`);
         }
         else {
-            interaction.reply(`${interaction.user.username} doesn't have that item!`);
+            interaction.reply({content: `You don't have that item!`, ephemeral: true});
         }
     },
 };

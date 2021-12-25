@@ -16,13 +16,13 @@ module.exports = {
             var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
         }
         catch (err) {
-            interaction.reply('Company does not exist');
+            interaction.reply({content: 'Company does not exist', ephemeral: true});
             return;
         }
 
         // Check if user is owner of company
         if (companyinfo.owner != interaction.user.id) {
-            interaction.reply('You are not the owner of '+company);
+            interaction.reply({content: 'You are not the owner of '+company, ephemeral: true});
             return;
         }
 

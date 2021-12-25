@@ -9,7 +9,7 @@ module.exports = {
 		.setDescription('Collect your salary (in snowballs, of course)'),
 	async execute(interaction) {
         if (talkedRecently.has(interaction.user.id)) {
-            interaction.reply("Wait a day before getting typing this again.");
+            interaction.reply({content: "Wait a day before getting typing this again.", ephemeral: true});
             return;
 		}
 		// Open up message author's file and company stock file
@@ -18,7 +18,7 @@ module.exports = {
 
         // Check if user is in company
         if (user.company == null) {
-            interaction.reply('You are not in a company');
+            interaction.reply({content: 'You are not in a company', ephemeral: true});
             return;
         }
 

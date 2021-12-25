@@ -31,10 +31,10 @@ module.exports = {
 
         // Create file in stockinfo for the stock, and if file already exists, tell user to pick another name
 		if (fs.existsSync(`./stockinfo/${interaction.options.getString('name')}.json`)) {
-			interaction.reply('Company already exists');
+			interaction.reply({content: 'Company already exists', ephemeral: true});
 		}
 		else if (Number(interaction.options.getInteger('shares'))*Number(interaction.options.getInteger('price')) > user['snowballs']) {
-			interaction.reply('You don\'t have enough money to create this company. You need ' + String(Number(interaction.options.getInteger('shares'))*Number(interaction.options.getInteger('price')) - user['snowballs']) + ' snowballs.');
+			interaction.reply({content: 'You don\'t have enough money to create this company. You need ' + String(Number(interaction.options.getInteger('shares'))*Number(interaction.options.getInteger('price')) - user['snowballs']) + ' snowballs.', ephemeral: true});
 		}
 		else {
 			fs.writeFileSync(`./stockinfo/${interaction.options.getString('name')}.json`, JSON.stringify({

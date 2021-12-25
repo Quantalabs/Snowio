@@ -20,21 +20,21 @@ module.exports = {
             var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
         }
         catch (err) {
-            interaction.reply('Company does not exist');
+            interaction.reply({content: 'Company does not exist', ephemeral: true});
             return;
         }
 
         // Check No. of available shares
         var shares = interaction.options.getInteger('shares');
         if (shares > companyinfo.avaliableShares) {
-            interaction.reply('There are only '+companyinfo.avaliableShares+' shares available, you can\'t buy '+shares+' shares');
+            interaction.reply({content: 'There are only '+companyinfo.avaliableShares+' shares available, you can\'t buy '+shares+' shares', ephemeral: true});
             return;
         }
 
         // Check if user has enough snowballs
         var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
         if (userinfo.snowballs < companyinfo.price * shares) {
-            interaction.reply('You don\'t have enough snowballs. You need '+(companyinfo.price * shares)+' snowballs to buy '+shares+' shares of '+company);
+            interaction.reply({content: 'You don\'t have enough snowballs. You need '+(companyinfo.price * shares)+' snowballs to buy '+shares+' shares of '+company, ephemeral: true});
             return;
         }
 

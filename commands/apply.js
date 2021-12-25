@@ -16,14 +16,14 @@ module.exports = {
             var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
         }
         catch (err) {
-            interaction.reply('Company does not exist');
+            interaction.reply({content: 'Company does not exist', ephemeral: true});
             return;
         }
 
         // Check if user is already in company
         var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
         if (userinfo.company != null) {
-            interaction.reply('You are already in a company');
+            interaction.reply({content: 'You are already in a company', ephemeral: true});
             return;
         }
 
@@ -35,6 +35,6 @@ module.exports = {
         companyinfo.employees.push(interaction.user.id);
         fs.writeFileSync(`./stockinfo/${company}.json`, JSON.stringify(companyinfo));
 
-        interaction.reply('You have applied to '+company);
+        interaction.reply('You are now employed to '+company);
     },
 };

@@ -20,7 +20,7 @@ module.exports = {
 
         // Check if user has enough snowballs
         if (user['snowballs'] < interaction.options.getInteger('amount')) {
-            interaction.reply('You don\'t have enough snowballs');
+            interaction.reply({content: 'You don\'t have enough snowballs', ephemeral: true});
             return;
         }
 

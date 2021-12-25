@@ -9,7 +9,7 @@ module.exports = {
 		.setDescription('Add to your snowball stockpile'),
 	async execute(interaction) {
 		if (talkedRecently.has(interaction.user.id)) {
-            interaction.reply("Wait 30 seconds before getting typing this again.");
+            interaction.reply({content: "Wait 30 seconds before getting typing this again.", ephemeral: true});
 		} else {
 			var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'))
 

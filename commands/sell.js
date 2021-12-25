@@ -18,7 +18,7 @@ module.exports = {
         var company = interaction.options.getString('name');
         var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
         if (companyinfo != null) {
-            interaction.reply('Company already exists');
+            interaction.reply({content: 'Company already exists', ephemeral: true});
             return;
         }
 
@@ -26,7 +26,7 @@ module.exports = {
 		var shares = interaction.options.getInteger('shares');
 		var userstock = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8')).shareholders[interaction.user.id];
 		if (userstock == null || userstock.shares < shares) {
-			interaction.reply('You don\'t have '+shares+' shares of '+company);
+			interaction.reply({content: 'You don\'t have '+shares+' shares of '+company, ephemeral: true});
 			return;
 		}
 
@@ -45,5 +45,7 @@ module.exports = {
 		// Write to files
 		fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
 		fs.writeFileSync(`./stockinfo/${company}.json`, JSON.stringify(companyinfo));
+
+		interaction.reply('You have sold '+shares+' shares of '+company);
     },
 };
