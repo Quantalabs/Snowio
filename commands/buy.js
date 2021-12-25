@@ -16,8 +16,10 @@ module.exports = {
 	async execute(interaction) {
 		// Check if company exists
         var company = interaction.options.getString('name');
-        var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
-        if (companyinfo == null) {
+        try {
+            var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
+        }
+        catch (err) {
             interaction.reply('Company does not exist');
             return;
         }
@@ -39,13 +41,16 @@ module.exports = {
         // Buy shares
         userinfo.snowballs -= companyinfo.price * shares;
         companyinfo.avaliableShares -= shares;
+        totalShares = companyinfo.shareholders[interaction.user.id].shares + shares;
         companyinfo.shareholders[interaction.user.id] = {
             user: interaction.user.id,
-            shares: shares
+            shares: totalShares
         }
         
         // Write to files
         fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
         fs.writeFileSync(`./stockinfo/${company}.json`, JSON.stringify(companyinfo));
+
+        interaction.reply('You have bought '+shares+' shares of '+company);
     },
 };

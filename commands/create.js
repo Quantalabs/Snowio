@@ -44,7 +44,9 @@ module.exports = {
 				salary: Number(interaction.options.getInteger('salary')),
 				profitRate: Number(interaction.options.getInteger('profit-margin')/100),
 				owner: interaction.user.id,
-				shareholders: {}
+				shareholders: {},
+				avaliableShares: Number(interaction.options.getInteger('shares')),
+				employees: [interaction.user.id],
 			}));
 			interaction.reply('Company created');
 			

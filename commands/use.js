@@ -25,15 +25,18 @@ module.exports = {
             fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
             
             interaction.reply('You have started the snowball machine!');
-            for (var i = 0; i < 100; i+=10) {
-                setTimeout(() => {
-                    var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'))
-                    usersnowballs['snowballs'] += 10;
-                    fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
-                }, 60000);
+            var x = 0
+            const y = setInterval(() => {
+                var usersnowballs = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'))
+                usersnowballs['snowballs'] += 10;
+                fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(usersnowballs));
                 interaction.followUp(`${interaction.user.username} gained another 10 snowballs from their machine!`);
-            }
-            interaction.followUp('The snowball machine has stopped!');
+                x+=1;
+                if (x >= 10) {
+                    interaction.followUp('The snowball machine has stopped!');
+                    clearInterval(y);
+                }
+            }, 60000);
         }
         else if (interaction.options.getString('item') == 'fortress' && items.includes('fortress')) {
             var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'))

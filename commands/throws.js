@@ -41,14 +41,14 @@ module.exports = {
 				
 				// Add 1 to sender's hit count
 				var senderinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
-				senderinfo['hits'] += 1;
+				senderinfo['hits'] = String(Number(senderinfo['hits'])+1);
 				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(senderinfo));
 			} else {
 				interaction.reply(`${interaction.user.username} threw a snowball at ${interaction.options.getUser('target')}, but failed, and so gave them 1 free snowball!`);
 
 				// Add 1 to sender's miss count
 				var senderinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
-				senderinfo['Misses'] += 1;
+				senderinfo['Misses'] = String(Number(senderinfo['Misses'])+1);
 				fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(senderinfo));
 
 				// Add 1 to target's snowball count

@@ -11,15 +11,17 @@ module.exports = {
                 .setRequired(true)),
 	async execute(interaction) {
         // Check if company exists
-        var company = interaction.getOption('company');
-        var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
-        if (companyinfo == null) {
+        var company = interaction.options.getString('company');
+        try {
+            var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
+        }
+        catch (err) {
             interaction.reply('Company does not exist');
             return;
         }
 
         // Check if user is already in company
-        var userinfo = JSON.parse(fs.readFileSync(`./stockinfo/${interaction.user.id}.json`, 'utf8'));
+        var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
         if (userinfo.company != null) {
             interaction.reply('You are already in a company');
             return;
@@ -27,7 +29,11 @@ module.exports = {
 
         // Add user to company
         userinfo.company = company;
-        fs.writeFileSync(`./stockinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
+        fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
+
+        // Add user to company.employees
+        companyinfo.employees.push(interaction.user.id);
+        fs.writeFileSync(`./stockinfo/${company}.json`, JSON.stringify(companyinfo));
 
         interaction.reply('You have applied to '+company);
     },

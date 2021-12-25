@@ -8,6 +8,10 @@ module.exports = {
 		.setName('work')
 		.setDescription('Work for your employer'),
 	async execute(interaction) {
+        if (talkedRecently.has(interaction.user.id)) {
+            interaction.reply("Wait 30 seconds before getting typing this again.");
+            return;
+		}
 		// Check if user is in a company
         var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`, 'utf8'));
         if (userinfo.company == null) {

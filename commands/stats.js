@@ -33,7 +33,7 @@ module.exports = {
                     "inline": true
                 },
                 {
-                    "name": "Hits",
+                    "name": "Hits Thrown",
                     "value": userinfo['hits'],
                     "inline": true
                 },
@@ -54,7 +54,7 @@ module.exports = {
                 },
                 {
                     "name": "Company",
-                    "value": userinfo['company'],
+                    "value": userinfo['company'] || 'None',
                 }
             ]
         };

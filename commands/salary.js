@@ -8,6 +8,10 @@ module.exports = {
 		.setName('salary')
 		.setDescription('Collect your salary (in snowballs, of course)'),
 	async execute(interaction) {
+        if (talkedRecently.has(interaction.user.id)) {
+            interaction.reply("Wait a day before getting typing this again.");
+            return;
+		}
 		// Open up message author's file and company stock file
         var user = JSON.parse(fs.readFileSync(`./userinfo/${interaction.user.id}.json`));
         var company = JSON.parse(fs.readFileSync(`./stockinfo/${user.company}.json`));
@@ -40,5 +44,10 @@ module.exports = {
             fs.writeFileSync(`./stockinfo/${user.company}.json`, JSON.stringify(company));
             interaction.reply('You have collected your salary of '+company.salary+' snowballs. You now have '+user.snowballs+' snowballs.');
         }
+
+        talkedRecently.add(interaction.user.id);
+        setTimeout(() => {
+            talkedRecently.delete(interaction.user.id);
+        }, 1000*60*60*24);
     },
 };
