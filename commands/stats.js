@@ -51,6 +51,10 @@ module.exports = {
                     "name": "Items",
                     "value": items,
                     "inline": true
+                },
+                {
+                    "name": "Company",
+                    "value": userinfo['company'],
                 }
             ]
         };

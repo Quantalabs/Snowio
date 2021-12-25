@@ -2,3 +2,4 @@ config.json
 userinfo
 node_modules
 .env
+stockinfo

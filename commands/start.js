@@ -12,7 +12,7 @@ module.exports = {
         }
         // Create userinfo file
         fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify({
-            snowballs: 0,
+            snowballs: 50,
             hits: "0",
             Misses: "0",
             items: [],
