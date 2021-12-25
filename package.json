@@ -4,7 +4,8 @@
   "description": "Deck the halls with snowballs",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js & sleep 10 ; kill $!"
+    "test": "node index.js & sleep 10 ; kill $!",
+    "start": "node ."
   },
   "repository": {
     "type": "git",
