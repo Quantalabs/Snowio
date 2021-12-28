@@ -1,13 +1,18 @@
-const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+// Express
 const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.send('Check out our status page instead <a href="https://stats.uptimerobot.com/D63qNFoMYr/790166926">here</a>'));
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+//
+// =============================================
+// Bot Initialization
+
+const fs = require('fs');
+const { Client, Collection, Intents } = require('discord.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -28,7 +33,15 @@ client.on('interactionCreate', async interaction => {
 
 	const command = client.commands.get(interaction.commandName);
 
-	if (!command) return;
+	// If the command isn't the start command, tell user to use /start if they do not have a file
+	if (interaction.commandName !== 'start') {
+		if (!fs.existsSync(`./userinfo/${interaction.user.id}.json`)) {
+			interaction.reply({content: 'You must use the /start command first!', ephemeral: true});
+			return;
+		}
+	}
+
+	if (!command) await interaction.reply({content: 'That command does not exist!', ephemeral: true});
 
 	try {
 		await command.execute(interaction);
@@ -77,7 +90,7 @@ client.on('interactionCreate', interaction => {
 	}
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
 
 process.on('SIGINT', function() {
   console.log('Interrupted');

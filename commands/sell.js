@@ -16,9 +16,11 @@ module.exports = {
 	async execute(interaction) {
 		// Check if company exists
         var company = interaction.options.getString('name');
-        var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
-        if (companyinfo != null) {
-            interaction.reply({content: 'Company already exists', ephemeral: true});
+        if (fs.existsSync(`./stockinfo/${company}.json`)) {
+            var companyinfo = JSON.parse(fs.readFileSync(`./stockinfo/${company}.json`, 'utf8'));
+        }
+        else {
+            interaction.reply({content: 'That company does not exist.', ephemeral: true})
             return;
         }
 

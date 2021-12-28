@@ -45,7 +45,11 @@ module.exports = {
             userinfo["probability"] -= 0.1;
             // Round probability to 2 decimal places
             userinfo["probability"] = Math.round(userinfo["probability"] * 100) / 100;
-            
+
+            if (userinfo['probability'] <= 0) {
+                userinfo["probability"] = 0
+            }
+
             // Remove fortress from user's items
             var index = items.indexOf('fortress');
             items.splice(index, 1);
@@ -53,7 +57,7 @@ module.exports = {
 
             fs.writeFileSync(`./userinfo/${interaction.user.id}.json`, JSON.stringify(userinfo));
 
-            interaction.reply(`${interaction.user.name} has used their fortress! They now have a ${String(Number(userinfo['probability'])*100)}% chance of getting hit!`);
+            interaction.reply(`${interaction.user.username} has used their fortress! They now have a ${String(Number(userinfo['probability'])*100)}% chance of getting hit!`);
         }
         else {
             interaction.reply({content: `You don't have that item!`, ephemeral: true});

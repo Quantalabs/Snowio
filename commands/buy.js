@@ -41,7 +41,13 @@ module.exports = {
         // Buy shares
         userinfo.snowballs -= companyinfo.price * shares;
         companyinfo.avaliableShares -= shares;
-        totalShares = companyinfo.shareholders[interaction.user.id].shares + shares;
+        var totalShares = 0
+        if (!companyinfo.shareholders[interaction.user.id]) {
+            totalShares = shares
+        }
+        else {
+            totalShares = companyinfo.shareholders[interaction.user.id].shares + shares
+        }
         companyinfo.shareholders[interaction.user.id] = {
             user: interaction.user.id,
             shares: totalShares

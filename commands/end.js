@@ -27,11 +27,11 @@ module.exports = {
         }
 
         // Pay back all shareholders
-        for (var i in companyinfo.shareholders) {
-            var shareholder = companyinfo.shareholders[i].user
-            var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${shareholder}.json`, 'utf8'));
-            userinfo.money += i.shares * companyinfo.shareprice;
-            fs.writeFileSync(`./userinfo/${shareholder}.json`, JSON.stringify(userinfo));
+        for (var i in Object.keys(companyinfo.shareholders)) {
+            var shareholder = companyinfo.shareholders[Object.keys(companyinfo.shareholders)[i]]
+            var userinfo = JSON.parse(fs.readFileSync(`./userinfo/${shareholder.user}.json`, 'utf8'));
+            userinfo.snowballs += Number(shareholder.shares) * Number(companyinfo.price);
+            fs.writeFileSync(`./userinfo/${shareholder.user}.json`, JSON.stringify(userinfo));
         }
 
         // Remove all users employed in company
