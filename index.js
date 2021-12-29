@@ -1,4 +1,22 @@
-// Express
+// Check if config file exists, and if it does, load it and get guildId, clientId, and token
+const fs = require('fs');
+if (fs.existsSync('./config.json')) {
+	var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+	guildId = config.guildId;
+	clientId = config.clientId;
+	token = config.token;
+}
+else {
+	// Use environment variables instead
+	guildId = process.env.guildId;
+	clientId = process.env.clientId;
+	token = process.env.token;
+}
+
+//
+// ========================================================
+// Server Setup
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -11,7 +29,6 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 // =============================================
 // Bot Initialization
 
-const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -90,7 +107,7 @@ client.on('interactionCreate', interaction => {
 	}
 });
 
-client.login(process.env.TOKEN);
+client.login(token);
 
 process.on('SIGINT', function() {
   console.log('Interrupted');

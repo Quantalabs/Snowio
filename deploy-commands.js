@@ -1,20 +1,31 @@
+// Check if config file exists, and if it does, load it and get guildId, clientId, and token
+const fs = require('fs');
+
+if (fs.existsSync('./config.json')) {
+	var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+	guildId = config.guildId;
+	clientId = config.clientId;
+	token = config.token;
+}
+else {
+	// Use environment variables instead
+	guildId = process.env.guildId;
+	clientId = process.env.clientId;
+	token = process.env.token;
+}
+
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const fs = require('fs');
 
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-// Place your client and guild ids here
-const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
 	try {
