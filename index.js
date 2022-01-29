@@ -1,4 +1,9 @@
 // Check if config file exists, and if it does, load it and get guildId, clientId, and token
+
+let token;
+let guildId;
+let clientId;
+
 const fs = require('fs');
 if (fs.existsSync('./config.json')) {
 	var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
@@ -8,9 +13,9 @@ if (fs.existsSync('./config.json')) {
 }
 else {
 	// Use environment variables instead
-	guildId = process.env.guildId;
-	clientId = process.env.clientId;
-	token = process.env.token;
+	guildId = process.env.GUILD_ID;
+	clientId = process.env.CLIENT_ID;
+	token = process.env.TOKEN;
 }
 
 //

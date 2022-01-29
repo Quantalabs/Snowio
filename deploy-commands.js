@@ -9,9 +9,9 @@ if (fs.existsSync('./config.json')) {
 }
 else {
 	// Use environment variables instead
-	guildId = process.env.guildId;
-	clientId = process.env.clientId;
-	token = process.env.token;
+	guildId = process.env.GUILD_ID;
+	clientId = process.env.CLIENT_ID;
+	token = process.env.TOKEN;
 }
 
 const { REST } = require('@discordjs/rest');
